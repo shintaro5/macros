@@ -7,6 +7,7 @@
   
   for(int i=0;i<10000;i++){
     hist->Fill(random.Gaus(0,10));
+    hist->SetFillColor(kBlue);
   }
   hist->Draw();
 }
