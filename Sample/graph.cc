@@ -10,61 +10,56 @@
   c1->SetFrameFillColor(0);
   c1->SetFrameFillStyle(0);
   gStyle->SetNdivisions(508); 
- 
+  
+  Double_t ymin=106000;
+  Double_t ymax=118000;
+  
   ifstream ifs("point.txt");
-  Int_t year[500],month[500],day[500],hour[500],min[500],sec[500];  
+  Int_t year[500];
+  Int_t month[500];
+  Int_t day[500];
+  Int_t hour[500];
+  Int_t min[500];
+  Int_t sec[500];  
   Double_t score[500];
   Double_t time[500];
   
-  Double_t tfitrange;
-  Double_t tfitstart;
   Double_t tfitend;
   Double_t tdindi;
   vector<double> y,m,d,h,m,s,sc;
   
   TDatime dt[500];
-  TDatime dt1[500];
-  TDatime dt2[500];
-  TDatime ds,de; // start and end
+  TDatime ds,de; 
   TDatime dfitstart,dfitend;
   
-  ds.Set(2016,11,28,00,00,00);
-  de.Set(2016,12,05,02,00,00);
-  
-  dfitstart.Set(2016,06,27,00,00,00);
-  dfitend.Set(2016,07,04,00,00,00);
-  
-  tfitstart = dfitstart->Convert();
-  tfitend   = dfitend->Convert();
+  ds.Set(2016,02,01,00,00,00);
+  de.Set(2016,02,18,24,00,00);
   
   Int_t start = ds.Convert();
   Int_t end   = de.Convert();
   Int_t num   = 0;
-  Int_t num1  = 0;
-  Int_t num2  = 0;
-  
+ 
   while(!ifs.eof()){
     
-    ifs >> year[num] >> month[num] >> day[num] >> hour[num] >> min[num] >> sec[num] >> score[num];
+    ifs >> year[num] 
+	>> month[num] 
+	>> day[num] 
+	>> hour[num] 
+	>> min[num] 
+	>> sec[num] 
+	>> score[num];
     
-    dt[num]->Set(year[num],month[num],day[num],hour[num]+1,min[num],sec[num]);  
+    dt[num]->Set(year[num],month[num],day[num],hour[num],min[num],sec[num]);  
     time[num]=dt[num]->Convert();
     
     num++;
   }
 
-  stringstream ss;
-  stringstream ss2;
-  ss << score[num-2] ;
-  ss2 << "saiban_score" << score[num-2] << ".png";
-
   TGraph *gr = new TGraph(num-1,time,score);
   gPad->SetTicks(0,1);
   gPad->SetFillStyle(0);
-  TF1 *f = new TF1("fit","[0]*x+[1]");
-  f->SetLineColor(kRed);
   
-  
+  //  gr->SetTitle("Title of Graph")
   gr->SetMarkerStyle(20);
   gr->SetMarkerSize(1);
   gr->SetLineColor(kBlack);
@@ -74,8 +69,7 @@
   gr->GetXaxis()->SetTimeOffset(0,"gmt");
   gr->GetXaxis()->SetTimeDisplay(1);  
   gr->GetXaxis()->SetLimits(start,end);
- 
-  gr->GetYaxis()->SetRangeUser(100000,122000);
+  gr->GetYaxis()->SetRangeUser(ymin,ymax);
   
   TGaxis::SetMaxDigits(6);
   gr->Draw("APL");
