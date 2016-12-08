@@ -1,0 +1,5 @@
+CXXFLAGS +=`root-config --cflags`
+LDLIBS   += `root-config --libs`
+CXXFLAGS += -I$(TARTSYS)/include -L$(TARTSYS)/lib
+testclass: GSTestClass.o testclass.cc
+clean: rm *.o
