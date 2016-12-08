@@ -75,7 +75,7 @@
   gr->GetXaxis()->SetTimeDisplay(1);  
   gr->GetXaxis()->SetLimits(start,end);
  
-  gr->GetYaxis()->SetRangeUser(118000,122000);
+  gr->GetYaxis()->SetRangeUser(100000,122000);
   
   TGaxis::SetMaxDigits(6);
   gr->Draw("APL");
